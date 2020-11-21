@@ -1,12 +1,13 @@
 from threading import Thread
+from itertools import count
 
-a = 0
+a = count(0, 1)
 
 
 def function(arg):
     global a
     for _ in range(arg):
-        a += 1
+        next(a)
 
 
 def main():
