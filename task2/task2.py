@@ -73,12 +73,12 @@ class Version:
 
     def __eq__(self, other):
         if not self._is_valid_operand(other):
-            return NotImplemented
+            raise TypeError
         return self.version_comparable == other.version_comparable
 
     def __lt__(self, other):
         if not self._is_valid_operand(other):
-            return NotImplemented
+            raise TypeError
         for left, right in zip_longest(self.version_comparable, other.version_comparable, fillvalue=0):
             if left == right:
                 continue
