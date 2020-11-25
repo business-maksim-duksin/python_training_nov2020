@@ -16,6 +16,7 @@ savers = {
     "xml": save_as_xml,
 }
 
+# Check if valid save format
 try:
     save_to_file = savers[args.output_format]
 except KeyError:
@@ -31,11 +32,13 @@ def main():
 
     [room.update({"Students": []}) for room in rooms]
     rooms_and_students = {"Rooms":
-                              {room["id"]: room for room in rooms}
+                              {room["id"]:
+                                   room for room in rooms
+                               }
                           }
     [rooms_and_students["Rooms"][student["room"]]["Students"].append(student) for student in students]
+    # Get rid of useless depth layer  (room id as keys)
     rooms_and_students["Rooms"] = list(rooms_and_students["Rooms"].values())
-
 
     filename = f"{args.output_name}.{args.output_format}"
     save_to_file(rooms_and_students, os.path.join(args.output_path, filename))
