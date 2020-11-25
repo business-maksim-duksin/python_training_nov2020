@@ -1,24 +1,30 @@
-from threading import Thread
-from itertools import count
-
-a = count(0, 1)
+from threading import Lock
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
-def function(arg):
-    global a
+class Counter:
+    def __init__(self, start=0):
+        self.value = start
+        self._lock = Lock()
+
+    def increment(self):
+        with self._lock:
+            self.value += 1
+
+    def __str__(self):
+        return str(self.value)
+
+
+def function(arg, counter):
     for _ in range(arg):
-        next(a)
+        counter.increment()
 
 
 def main():
-    threads = []
-    for i in range(5):
-        thread = Thread(target=function, args=(1000000,))
-        thread.start()
-        threads.append(thread)
-
-    [t.join() for t in threads]
-    print("----------------------", a)  # ???
-
-
+    counter = Counter()
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        pool = [executor.submit(function, 1000000, counter) for _ in range(5)]
+        # wait for completion
+    # [f for f in as_completed(pool, timeout=2)]
+    print("----------------------", counter)  # ???
 main()
