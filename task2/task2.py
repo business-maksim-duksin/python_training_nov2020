@@ -74,7 +74,13 @@ class Version:
     def __eq__(self, other):
         if not self._is_valid_operand(other):
             raise NotImplemented
-        return self.version_comparable == other.version_comparable
+        for left, right in zip_longest(self.version_comparable, other.version_comparable, fillvalue=0):
+            if left == right:
+                continue
+            else:
+                return False
+        else:
+            return True
 
     def __lt__(self, other):
         if not self._is_valid_operand(other):
