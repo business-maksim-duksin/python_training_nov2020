@@ -1,5 +1,6 @@
 from functools import total_ordering
 from itertools import zip_longest
+from logging_config import log
 import re
 
 
@@ -68,7 +69,7 @@ class Version:
         except KeyError as error:
             msg = f"Unknown letter {char} in {self.version} REPLACED WITH Beta. " \
                   f"Known are {self.dev_stage_to_int_table.keys()}"
-            print(msg)
+            log.warning(msg)
             return self.dev_stage_to_int_table['b']
 
     def __eq__(self, other):
