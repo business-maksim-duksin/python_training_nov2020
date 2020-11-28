@@ -1,6 +1,7 @@
 import json
 import xml.etree.ElementTree as ET
 from typing import Dict
+from logging_config import log
 
 
 def save_as_json(d: Dict, path: str) -> None:

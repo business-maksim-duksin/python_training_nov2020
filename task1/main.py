@@ -2,6 +2,8 @@ import argparse
 import os
 import json
 from save_as import save_as_json, save_as_xml
+from logging_config import log
+
 
 parser = argparse.ArgumentParser(description="Form a list of rooms containing list of students inside every room.")
 parser.add_argument("students", type=str, help="path to students json")
@@ -15,14 +17,13 @@ savers = {
     "json": save_as_json,
     "xml": save_as_xml,
 }
-
 # Check if valid save format
 try:
     save_to_file = savers[args.output_format]
 except KeyError:
-    print(f"Unknown file format {args.output_format}, use one of these: {', '.join(savers.keys())}.")
+    msg = f"Unknown file format {args.output_format}, use one of these: {', '.join(savers.keys())}."
+    log.error(msg)
     raise
-
 
 def main():
     with open(args.students, 'r') as f:
