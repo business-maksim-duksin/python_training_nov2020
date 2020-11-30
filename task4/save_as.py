@@ -6,7 +6,7 @@ from logging_config import log
 
 def save_as_json(d: Dict, path: str) -> None:
     with open(path, 'w') as f:
-        json.dump(d, f, indent=4)
+        json.dump(d, f, indent=4, default=str)
 
 
 def save_as_xml(d: Dict, path: str) -> None:

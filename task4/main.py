@@ -40,26 +40,19 @@ def main():
         dbh.insert_students(students)
 
         # dbh.add_indexes()
+        #                           (AVG(3))ms  | PrimeryKey+ForeignKey / PrimeryKey / Nothing
+        r1 = dbh.room_population()  #                       9               20              23
+        r2 = dbh.top5_least_average_age()   #               18              13              15
+        r3 = dbh.top5_max_diff_age()    #                   18              10              13
+        r4 = dbh.mixed_sex()    #                           11              11              11
 
-        r1 = dbh.room_population()
-        r2 = dbh.top5_least_average_age()
-        r3 = dbh.top5_max_diff_age()
-        r4 = dbh.mixed_sex()
-
-        print(r4)
-
-    [room.update({"Students": []}) for room in rooms]
-    rooms_and_students = {"Rooms":
-                              {room["id"]:
-                                   room for room in rooms
-                               }
+    rooms_and_students = {"room_population": r1,
+                          "top5_least_average_age": r2,
+                          "top5_max_diff_age": r3,
+                          "mixed_sex": r4,
                           }
-    [rooms_and_students["Rooms"][student["room"]]["Students"].append(student) for student in students]
-    # Get rid of useless depth layer  (room id as keys)
-    rooms_and_students["Rooms"] = list(rooms_and_students["Rooms"].values())
-
     filename = f"{args.output_name}.{args.output_format}"
-    # save_to_file(rooms_and_students, os.path.join(args.output_path, filename))
+    save_to_file(rooms_and_students, os.path.join(args.output_path, filename))
 
 
 if __name__ == "__main__":
