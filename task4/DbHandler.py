@@ -148,6 +148,19 @@ class DbHandler:
             cursor.execute(query, )
             return cursor.fetchall()
 
+    def mixed_sex(self):
+        """список комнат где живут разнополые студенты"""
+        query = """
+                SELECT room,
+                       COUNT(DISTINCT(sex)) AS sex_dst
+                FROM students
+                GROUP BY room
+                HAVING sex_dst > 1
+                """
+        with self.cnx.cursor(dictionary=True) as cursor:
+            cursor.execute(query, )
+            return cursor.fetchall()
+
     def __enter__(self):
         return self
 
