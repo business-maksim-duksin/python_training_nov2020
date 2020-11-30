@@ -125,6 +125,29 @@ class DbHandler:
         with self.cnx.cursor(dictionary=True) as cursor:
             cursor.execute(query, )
             return cursor.fetchall()
+
+    def top5_max_diff_age(self):
+        """top 5 комнат с самой большой разницей в возрасте студентов"""
+        query = """
+                WITH min_max AS
+                (
+                    SELECT room,
+                           MAX(birthday) AS max_age,
+                           MIN(birthday) AS min_age
+                    FROM students
+                    GROUP BY room
+                )
+                SELECT room,
+                       MAX(DATEDIFF(max_age, min_age)) AS max_diff
+                FROM min_max
+                GROUP BY room
+                ORDER BY max_diff DESC
+                LIMIT 5
+                """
+        with self.cnx.cursor(dictionary=True) as cursor:
+            cursor.execute(query, )
+            return cursor.fetchall()
+
     def __enter__(self):
         return self
 

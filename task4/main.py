@@ -41,7 +41,8 @@ def main():
 
         r1 = dbh.room_population()
         r2 = dbh.top5_least_average_age()
-        print(r2)
+        r3 = dbh.top5_max_diff_age()
+        print(r3)
 
     [room.update({"Students": []}) for room in rooms]
     rooms_and_students = {"Rooms":
