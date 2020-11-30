@@ -9,7 +9,7 @@ def exceptions_logging(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         try:
-            # log.DEBUG(f.__name__, *args, **kwargs)
+            log.debug(f.__name__, *args, **kwargs)
             return f(*args, **kwargs)
         except Exception as e:
             log.error(e)
@@ -32,7 +32,10 @@ class DbHandler:
         """
         :Bool from_scratch: If True then DROP DATATABLE IF EXISTS, False -> use existing
         """
-        self.cnx = mysql.connector.connect(**db_config)
+        self.cnx = mysql.connector.connect(host=db_config["host"],
+                                           password=db_config["password"],
+                                           user=db_config["user"],
+                                           )
         self.db_name = db_config["database"]
         if from_scratch:
             self.__drop_database()
@@ -44,6 +47,7 @@ class DbHandler:
             cursor.execute(query, )
             log.warning(f"DROPPED {self.db_name} IF EXISTS")
 
+    # @exceptions_logging
     def create_database(self, ):
         query = f"CREATE DATABASE IF NOT EXISTS {self.db_name}"
         with self.cnx.cursor() as cursor:
