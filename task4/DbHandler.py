@@ -112,6 +112,19 @@ class DbHandler:
             cursor.execute(query, )
             return cursor.fetchall()
 
+    def top5_least_average_age(self):
+        """top 5 комнат, где самые маленький средний возраст студентов"""
+        query = """
+                SELECT room,
+                       AVG(DATEDIFF(NOW(), birthday)) AS avg_age
+                FROM students
+                GROUP BY room
+                ORDER BY avg_age ASC
+                LIMIT 5
+                """
+        with self.cnx.cursor(dictionary=True) as cursor:
+            cursor.execute(query, )
+            return cursor.fetchall()
     def __enter__(self):
         return self
 

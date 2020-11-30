@@ -40,7 +40,8 @@ def main():
         dbh.insert_students(students)
 
         r1 = dbh.room_population()
-        print(r1)
+        r2 = dbh.top5_least_average_age()
+        print(r2)
 
     [room.update({"Students": []}) for room in rooms]
     rooms_and_students = {"Rooms":
