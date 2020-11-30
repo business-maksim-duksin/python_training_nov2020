@@ -3,6 +3,7 @@ import os
 import json
 from save_as import save_as_json, save_as_xml
 from logging_config import log
+from DbHandler import DbHandler
 
 
 parser = argparse.ArgumentParser(description="Form a list of rooms containing list of students inside every room.")
@@ -31,6 +32,15 @@ def main():
     with open(args.rooms, 'r') as f:
         rooms = json.load(f)
 
+    with DbHandler(from_scratch=True) as dbh:
+        dbh.create_table_rooms()
+        dbh.create_table_students()
+
+        dbh.insert_rooms(rooms)
+        dbh.insert_students(students)
+
+
+
     [room.update({"Students": []}) for room in rooms]
     rooms_and_students = {"Rooms":
                               {room["id"]:
@@ -42,7 +52,7 @@ def main():
     rooms_and_students["Rooms"] = list(rooms_and_students["Rooms"].values())
 
     filename = f"{args.output_name}.{args.output_format}"
-    save_to_file(rooms_and_students, os.path.join(args.output_path, filename))
+    # save_to_file(rooms_and_students, os.path.join(args.output_path, filename))
 
 
 if __name__ == "__main__":

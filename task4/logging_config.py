@@ -1,7 +1,7 @@
 import logging
 import os
 
-log = logging.getLogger("Task1Logger")
+log = logging.getLogger("Task4Logger")
 log.setLevel(logging.DEBUG)
 dirname = "logs"
 filename = "warnings.log"
