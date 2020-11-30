@@ -10,8 +10,9 @@ def save_as_json(d: Dict, path: str) -> None:
 
 
 def save_as_xml(d: Dict, path: str) -> None:
-    root_key = list(d.keys())[0]
+    root_key = "root"
     root = ET.Element(str(root_key))
+    d = {root_key: d}
 
     def get_leafs(stuff):
         """ Recursively walk data branches forming a XML ElementTree. """
@@ -39,7 +40,7 @@ def save_as_xml(d: Dict, path: str) -> None:
                 leafs.append(elem)
         return leafs
 
-    for item in d[root_key]:
+    for item in d.values():
         root.extend(get_leafs(item))
 
     tree = ET.ElementTree(root)
