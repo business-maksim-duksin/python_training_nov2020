@@ -39,8 +39,8 @@ def main():
         dbh.insert_rooms(rooms)
         dbh.insert_students(students)
 
-        # dbh.add_indexes()
-        #                           (AVG(3))ms  | PrimeryKey+ForeignKey / PrimeryKey / Nothing
+        dbh.add_indexes()
+        #                       (AVG(3))ms exec.  | PrimeryKey+ForeignKey / PrimeryKey / Nothing
         r1 = dbh.room_population()  #                       9               20              23
         r2 = dbh.top5_least_average_age()   #               18              13              15
         r3 = dbh.top5_max_diff_age()    #                   18              10              13
