@@ -6,10 +6,11 @@ from db_config import db_config
 
 
 def exceptions_logging(f):
+    """ I don't know if i really have to log everything, but i cat if i do. """
     @wraps(f)
     def wrapper(*args, **kwargs):
         try:
-            log.debug(f.__name__, *args, **kwargs)
+            # log.debug(f.__name__, )
             return f(*args, **kwargs)
         except Exception as e:
             log.error(e)
@@ -47,7 +48,6 @@ class DbHandler:
             cursor.execute(query, )
             log.warning(f"DROPPED {self.db_name} IF EXISTS")
 
-    # @exceptions_logging
     def create_database(self, ):
         query = f"CREATE DATABASE IF NOT EXISTS {self.db_name}"
         with self.cnx.cursor() as cursor:
