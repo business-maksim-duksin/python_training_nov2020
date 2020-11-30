@@ -161,6 +161,22 @@ class DbHandler:
             cursor.execute(query, )
             return cursor.fetchall()
 
+    def add_indexes(self):
+        """добавить использование PRIMERY KEY в таблицы"""
+        query = """
+                ALTER TABLE rooms ADD PRIMARY KEY (id)
+                """
+        with self.cnx.cursor() as cursor:
+            cursor.execute(query, )
+            self.cnx.commit()
+        query = """
+                ALTER TABLE students ADD PRIMARY KEY (id), 
+                ADD FOREIGN KEY (room)  REFERENCES rooms (id)
+                """
+        with self.cnx.cursor() as cursor:
+            cursor.execute(query, )
+            self.cnx.commit()
+
     def __enter__(self):
         return self
 

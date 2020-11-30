@@ -39,10 +39,13 @@ def main():
         dbh.insert_rooms(rooms)
         dbh.insert_students(students)
 
+        # dbh.add_indexes()
+
         r1 = dbh.room_population()
         r2 = dbh.top5_least_average_age()
         r3 = dbh.top5_max_diff_age()
         r4 = dbh.mixed_sex()
+
         print(r4)
 
     [room.update({"Students": []}) for room in rooms]
