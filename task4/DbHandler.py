@@ -19,9 +19,19 @@ def exceptions_logging(f):
 
 
 class DbHandler:
-    """Class to handle all possible interactions with database within the scope of a given task (Task4)."""
+    """
+    Class to handle all possible interactions with database within the scope of a given task (Task4)..
 
+
+    __init__
+    ----------
+    :Bool from_scratch: If True then DROP DATATABLE IF EXISTS, False -> use existing
+
+    """
     def __init__(self, from_scratch: bool = False):
+        """
+        :Bool from_scratch: If True then DROP DATATABLE IF EXISTS, False -> use existing
+        """
         self.cnx = mysql.connector.connect(**db_config)
         self.db_name = db_config["database"]
         if from_scratch:
@@ -32,6 +42,7 @@ class DbHandler:
         query = f"""DROP DATABASE IF EXISTS {self.db_name}"""
         with self.cnx.cursor() as cursor:
             cursor.execute(query, )
+            log.warning(f"DROPPED {self.db_name} IF EXISTS")
 
     def create_database(self, ):
         query = f"CREATE DATABASE IF NOT EXISTS {self.db_name}"
