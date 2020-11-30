@@ -177,7 +177,7 @@ class DbHandler:
             return cursor.fetchall()
 
     def add_indexes(self):
-        """добавить использование PRIMERY KEY в таблицы"""
+        """добавить использование PRIMERY KEY и FOREIGN KEY в таблицы"""
         query = """
                 ALTER TABLE rooms ADD PRIMARY KEY (id)
                 """
