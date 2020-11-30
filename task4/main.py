@@ -39,7 +39,8 @@ def main():
         dbh.insert_rooms(rooms)
         dbh.insert_students(students)
 
-
+        r1 = dbh.room_population()
+        print(r1)
 
     [room.update({"Students": []}) for room in rooms]
     rooms_and_students = {"Rooms":

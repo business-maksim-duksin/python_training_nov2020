@@ -98,7 +98,19 @@ class DbHandler:
             cursor.executemany(query, list_of_students)
             self.cnx.commit()
 
-
+    def room_population(self):
+        """список комнат и количество студентов в каждой из них"""
+        query = """
+                SELECT r.id, COUNT(s.id) as population
+                FROM rooms AS r
+                    LEFT JOIN students AS s
+                        ON r.id = s.room
+                GROUP BY r.id
+                ORDER BY population DESC
+                """
+        with self.cnx.cursor(dictionary=True) as cursor:
+            cursor.execute(query, )
+            return cursor.fetchall()
 
     def __enter__(self):
         return self
