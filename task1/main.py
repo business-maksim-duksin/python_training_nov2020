@@ -41,7 +41,9 @@ def main():
                                    room for room in rooms
                                }
                           }
-    [rooms_and_students["Rooms"][student["room"]]["Students"].append(student) for student in students]
+    for student in students:
+        room = rooms_and_students["Rooms"][student["room"]]
+        room["Students"].append(student)
     # Get rid of useless depth layer  (room id as keys)
     rooms_and_students["Rooms"] = list(rooms_and_students["Rooms"].values())
 
