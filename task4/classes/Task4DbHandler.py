@@ -1,8 +1,8 @@
-import mysql.connector
+from classes.DbExecutor import DbExecutor
+from classes.ConnectorBase import ConnectorBase
 from functools import wraps
 from typing import List
 from logging_config import log
-from db_config import db_config
 
 
 def exceptions_logging(f):
@@ -19,7 +19,7 @@ def exceptions_logging(f):
     return wrapper
 
 
-class DbHandler:
+class Task4DbHandler(DbExecutor):
     """
     Class to handle all possible interactions with database within the scope of a given task (Task4)..
 
@@ -29,14 +29,15 @@ class DbHandler:
     :Bool from_scratch: If True then DROP DATATABLE IF EXISTS, False -> use existing
 
     """
-    def __init__(self, from_scratch: bool = False):
+    def __init__(self, conncector: ConnectorBase, db_config: dict, from_scratch: bool = False, ):
         """
         :Bool from_scratch: If True then DROP DATATABLE IF EXISTS, False -> use existing
         """
-        self.cnx = mysql.connector.connect(host=db_config["host"],
-                                           password=db_config["password"],
-                                           user=db_config["user"],
-                                           )
+        config = {"host": db_config["host"],
+                    "password": db_config["password"],
+                    "user": db_config["user"],
+                  }
+        super().__init__(conncector, config)
         self.db_name = db_config["database"]
         if from_scratch:
             self.__drop_database()
@@ -191,10 +192,3 @@ class DbHandler:
         with self.cnx.cursor() as cursor:
             cursor.execute(query, )
             self.cnx.commit()
-
-    def __enter__(self):
-        return self
-
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.cnx.close()

@@ -3,7 +3,9 @@ import os
 import json
 from save_as import save_as_json, save_as_xml
 from logging_config import log
-from DbHandler import DbHandler
+from db_config import db_config
+from classes.Task4DbHandler import Task4DbHandler
+from classes.ConnectorMySQL import ConnectorMySQL
 
 
 parser = argparse.ArgumentParser(description="Form a list of rooms containing list of students inside every room.")
@@ -32,7 +34,8 @@ def main():
     with open(args.rooms, 'r') as f:
         rooms = json.load(f)
 
-    with DbHandler(from_scratch=True) as dbh:
+    with Task4DbHandler(ConnectorMySQL, db_config, from_scratch=True) as dbh:
+        # pass
         dbh.create_table_rooms()
         dbh.create_table_students()
 
