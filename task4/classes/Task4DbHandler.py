@@ -34,12 +34,8 @@ class Task4DbHandler(DbExecutor):
         :Bool from_scratch: If True then DROP DATATABLE IF EXISTS, False -> use existing
         """
         self.log = get_logger(__name__)
-        config = {"host": db_config["host"],
-                    "password": db_config["password"],
-                    "user": db_config["user"],
-                  }
-        super().__init__(conncector, config)
-        self.db_name = db_config["database"]
+        self.db_name = db_config.pop("database")
+        super().__init__(conncector, db_config)
         if from_scratch:
             self.__drop_database()
         self.create_database()
@@ -86,7 +82,6 @@ class Task4DbHandler(DbExecutor):
                 """
         with self.cnx.cursor() as cursor:
             cursor.execute(query, dic)
-            self.cnx.commit()
 
     def insert_rooms(self, list_of_rooms: List[dict]):
         query = """INSERT INTO rooms
@@ -95,7 +90,6 @@ class Task4DbHandler(DbExecutor):
                 """
         with self.cnx.cursor() as cursor:
             cursor.executemany(query, list_of_rooms)
-            self.cnx.commit()
 
     def insert_student(self, dic: dict):
         query = """INSERT INTO students
@@ -104,7 +98,6 @@ class Task4DbHandler(DbExecutor):
                 """
         with self.cnx.cursor() as cursor:
             cursor.execute(query, dic)
-            self.cnx.commit()
 
     def insert_students(self, list_of_students: List[dict]):
         query = """INSERT INTO students
@@ -113,7 +106,6 @@ class Task4DbHandler(DbExecutor):
                 """
         with self.cnx.cursor() as cursor:
             cursor.executemany(query, list_of_students)
-            self.cnx.commit()
 
     def room_population(self):
         """список комнат и количество студентов в каждой из них"""
@@ -185,11 +177,9 @@ class Task4DbHandler(DbExecutor):
                 """
         with self.cnx.cursor() as cursor:
             cursor.execute(query, )
-            self.cnx.commit()
         query = """
                 ALTER TABLE students ADD PRIMARY KEY (id), 
                 ADD FOREIGN KEY (room)  REFERENCES rooms (id)
                 """
         with self.cnx.cursor() as cursor:
             cursor.execute(query, )
-            self.cnx.commit()
