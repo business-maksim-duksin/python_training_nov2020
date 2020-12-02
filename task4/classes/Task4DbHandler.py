@@ -2,7 +2,7 @@ from classes.DbExecutor import DbExecutor
 from classes.ConnectorBase import ConnectorBase
 from functools import wraps
 from typing import List
-from logging_config import log
+from logging_config import get_logger
 
 
 def exceptions_logging(f):
@@ -33,6 +33,7 @@ class Task4DbHandler(DbExecutor):
         """
         :Bool from_scratch: If True then DROP DATATABLE IF EXISTS, False -> use existing
         """
+        self.log = get_logger(__name__)
         config = {"host": db_config["host"],
                     "password": db_config["password"],
                     "user": db_config["user"],
@@ -47,7 +48,7 @@ class Task4DbHandler(DbExecutor):
         query = f"DROP DATABASE IF EXISTS {self.db_name}"
         with self.cnx.cursor() as cursor:
             cursor.execute(query, )
-            log.warning(f"DROPPED {self.db_name} IF EXISTS")
+            self.log.warning(f"DROPPED {self.db_name} IF EXISTS")
 
     def create_database(self, ):
         query = f"CREATE DATABASE IF NOT EXISTS {self.db_name}"
