@@ -44,7 +44,7 @@ class Task4DbHandler(DbExecutor):
         self.create_database()
 
     def __drop_database(self):
-        query = f"""DROP DATABASE IF EXISTS {self.db_name}"""
+        query = f"DROP DATABASE IF EXISTS {self.db_name}"
         with self.cnx.cursor() as cursor:
             cursor.execute(query, )
             log.warning(f"DROPPED {self.db_name} IF EXISTS")
@@ -58,7 +58,7 @@ class Task4DbHandler(DbExecutor):
             cursor.execute(query, )
 
     def create_table_rooms(self):
-        query = f"""CREATE TABLE IF NOT EXISTS rooms (
+        query = """CREATE TABLE IF NOT EXISTS rooms (
                     id INT NOT NULL ,
                     name VARCHAR(12) NOT NULL
                     )
@@ -67,7 +67,7 @@ class Task4DbHandler(DbExecutor):
             cursor.execute(query, )
 
     def create_table_students(self):
-        query = f"""CREATE TABLE IF NOT EXISTS students (
+        query = """CREATE TABLE IF NOT EXISTS students (
                     birthday DATETIME NOT NULL,
                     id INT NOT NULL,
                     name VARCHAR(100) NOT NULL,
