@@ -1,8 +1,8 @@
 import argparse
 import os
 import json
-from save_as import save_as_json, save_as_xml
 from logging_config import get_logger
+from SaverToFile import SaverToJSON, SaverToXML
 
 def commnad_line_arguments():
     parser = argparse.ArgumentParser(description="Form a list of rooms containing list of students inside every room.")
@@ -16,12 +16,12 @@ def commnad_line_arguments():
     log = get_logger(__name__)
 
     savers = {
-        "json": save_as_json,
-        "xml": save_as_xml,
+        "json": SaverToJSON,
+        "xml": SaverToXML,
     }
     # Check if valid save format
     try:
-        save_to_file = savers[args.output_format]
+        save_to_file = savers[args.output_format].save_to_file
     except KeyError:
         msg = f"Unknown file format {args.output_format}, use one of these: {', '.join(savers.keys())}."
         log.error(msg)
