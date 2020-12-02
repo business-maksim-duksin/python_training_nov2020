@@ -15,15 +15,15 @@ class Counter:
         return str(self.value)
 
 
-def function(arg, counter):
-    for _ in range(arg):
+def count(anount, counter):
+    for _ in range(anount):
         counter.increment()
 
 
 def main():
     counter = Counter()
     with ThreadPoolExecutor(max_workers=5) as executor:
-        pool = [executor.submit(function, 1000000, counter) for _ in range(5)]
+        pool = [executor.submit(count, 1000000, counter) for _ in range(5)]
         # wait for completion
     # [f for f in as_completed(pool, timeout=2)]
     print("----------------------", counter)  # ???
