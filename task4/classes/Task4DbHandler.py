@@ -29,11 +29,11 @@ class Task4DbHandler(DbExecutor):
     :Bool from_scratch: If True then DROP DATATABLE IF EXISTS, False -> use existing
 
     """
+    log = get_logger(__name__)
     def __init__(self, conncector: ConnectorBase, db_config: dict, from_scratch: bool = False, ):
         """
         :Bool from_scratch: If True then DROP DATATABLE IF EXISTS, False -> use existing
         """
-        self.log = get_logger(__name__)
         self.db_name = db_config.pop("database")
         super().__init__(conncector, db_config)
         if from_scratch:
