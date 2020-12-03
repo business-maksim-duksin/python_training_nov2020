@@ -14,7 +14,7 @@ class Version:
     ----------
     version : str
         Version string as it was inputted.
-    _version_comparable : list[int]
+    __version_comparable : list[int]
         Version encoded as a list of ints to enable comparison.
     dev_stage_to_int_table : dict
         Lookup table for char to int conversion.
@@ -45,8 +45,8 @@ class Version:
 
     def __init__(self, version):
         self.version = str(version)
-        self._version_comparable = [int(s) if s.isdigit() else self._get_int(s[0])
-                                    for s in re.findall("\d+|[a-z]+", self.version.lower())]
+        self.__version_comparable = [int(s) if s.isdigit() else self._get_int(s[0])
+                                     for s in re.findall("\d+|[a-z]+", self.version.lower())]
 
     # @property   # lazy compute?
     # def version_comparable(self):
@@ -57,7 +57,7 @@ class Version:
         return self.version
 
     def __repr__(self):
-        return f"Version instance {str(self._version_comparable)}"
+        return f"Version instance {str(self.__version_comparable)}"
 
     @staticmethod
     def _is_valid_operand(other):
@@ -75,7 +75,7 @@ class Version:
     def __eq__(self, other):
         if not self._is_valid_operand(other):
             raise NotImplemented
-        for left, right in zip_longest(self._version_comparable, other._version_comparable, fillvalue=0):
+        for left, right in zip_longest(self.__version_comparable, other.__version_comparable, fillvalue=0):
             if left == right:
                 continue
             else:
@@ -86,7 +86,7 @@ class Version:
     def __lt__(self, other):
         if not self._is_valid_operand(other):
             raise NotImplemented
-        for left, right in zip_longest(self._version_comparable, other._version_comparable, fillvalue=0):
+        for left, right in zip_longest(self.__version_comparable, other.__version_comparable, fillvalue=0):
             if left == right:
                 continue
             elif left < right:
